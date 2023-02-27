@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>linux - Hexo</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="##rsync 远程同步工具rsync 是一个常用的 Linux 应用程序，用于文件同步，可通过LAN&#x2F;WAN快速同步多台主机间的文件。rsync使用所谓的“rsync算法”来使本地和远程两个主机之间的文件达到同步，这个算法只传送两个文件的不同部分，而不是每次都整份传送，因此速度相当快。 rsync是一个功能非常强大的工具，其命令也有很多功能特色选项。  使用语法 -r参数本机使用 rs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux">
+<meta property="og:url" content="http://example.com/2023/02/20/linux-rsync/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="##rsync 远程同步工具rsync 是一个常用的 Linux 应用程序，用于文件同步，可通过LAN&#x2F;WAN快速同步多台主机间的文件。rsync使用所谓的“rsync算法”来使本地和远程两个主机之间的文件达到同步，这个算法只传送两个文件的不同部分，而不是每次都整份传送，因此速度相当快。 rsync是一个功能非常强大的工具，其命令也有很多功能特色选项。  使用语法 -r参数本机使用 rs">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-02-20T15:19:45.000Z">
+<meta property="article:modified_time" content="2023-02-21T01:52:12.482Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+    
+<link rel="stylesheet" href="/lib/fancybox/fancybox.css">
+<link rel="stylesheet" href="/lib/mdui_043tiny/mdui.css">
+
+
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1677491419500">
+    
+    <link rel="stylesheet" href="/css/style.css?v=1677491419500">
+
+    
+        
+            <link rel="stylesheet" href="/custom.css?v=1677491419500">
+        
+    
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+<body class="mdui-drawer-body-left">
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="John Doe" class="mdui-btn mdui-btn-icon"><img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="John Doe">
+            <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt="John Doe" alt="John Doe">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>8</div>
+        <div><span>Tags</span>0</div>
+        <div><span>Categories</span>0</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/archive.html" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/donate.html" title="给我赞助">
+            <i class="mdui-list-item-icon nexmoefont icon-coffee"></i>
+            <div class="mdui-list-item-content">
+                给我赞助
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about.html" title="关于博主">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                关于博主
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+
+
+
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+	<div class="nexmoe-widget nexmoe-social">
+		<a
+			class="mdui-ripple"
+			href="https://jq.qq.com/?_wv=1027&k=5CfKHun"
+			target="_blank"
+			mdui-tooltip="{content: 'QQ群'}"
+			style="
+				color: rgb(249, 174, 8);
+				background-color: rgba(249, 174, 8, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-QQ"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://space.bilibili.com/20238211"
+			target="_blank"
+			mdui-tooltip="{content: '哔哩哔哩'}"
+			style="
+				color: rgb(231, 106, 141);
+				background-color: rgba(231, 106, 141, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-bilibili"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://github.com/nexmoe/"
+			target="_blank"
+			mdui-tooltip="{content: 'GitHub'}"
+			style="
+				color: rgb(25, 23, 23);
+				background-color: rgba(25, 23, 23, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-github"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://www.zhihu.com/people/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: '知乎'}"
+			style="
+				color: rgb(30, 136, 229);
+				background-color: rgba(30, 136, 229, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-zhihu"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://twitter.com/nexmoe"
+			target="_blank"
+			mdui-tooltip="{content: 'Twitter'}"
+			style="
+				color: rgb(59, 151, 239);
+				background-color: rgba(59, 151, 239, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-twitter"
+			></i> </a
+		><a
+			class="mdui-ripple"
+			href="https://nexmoe.com/atom.xml"
+			target="_blank"
+			mdui-tooltip="{content: 'RSS'}"
+			style="
+				color: rgb(247, 132, 34);
+				background-color: rgba(247, 132, 34, .1);
+			"
+		>
+			<i
+				class="nexmoefont icon-rss"
+			></i> </a
+		>
+	</div>
+</div>
+
+    
+        
+        
+
+    
+        
+        
+    
+        
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Archive</h3>
+    <div class="nexmoe-widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/">2023</a><span class="archive-list-count">8</span></li></ul>
+    </div>
+  </div>
+
+
+
+    
+        
+        
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Recent Posts</h3>
+    <div class="nexmoe-widget">
+      <ul>
+        
+          <li>
+            <a href="/2023/02/26/git/">git</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/26/webhook/">webhook</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/26/ssh/">ssh</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/22/reptiles/">reptiles/爬虫</a>
+          </li>
+        
+          <li>
+            <a href="/2023/02/21/linux-scp/">linux</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+    
+        
+        <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-link">
+		<ul>
+        
+            <li>
+                <a href="" target="_blank" >
+                    <img src="https://xsm.nexmoe.com/images/Infinite/Snipaste_2022-05-18_20-46-50.png" alt="小王同学"></img>
+                    <p>小王同学</p>
+                </a>
+            </li>
+        
+            <li>
+                <a href="" target="_blank" >
+                    <img src="https://cdn.jsdelivr.net/gh/nexmoe/nexmoe.github.io@latest/images/avatar.png" alt=""></img>
+                    <p></p>
+                </a>
+            </li>
+        
+		</ul>
+    </div>
+</div>
+<style>
+.nexmoe-widget-wrap .nexmoe-link ul li a {
+    text-align : center;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a img {
+    max-width : 100%;
+}
+.nexmoe-widget-wrap .nexmoe-link ul li a p {
+    margin: 10px 0;
+}
+</style>
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2023 John Doe
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+    
+        <div class="nexmoe-post-cover"> 
+            <img src="https://i.dawnlab.me/b5a7e61560facdd5b8aa9683fce147d7.png" alt="linux" loading="lazy">
+            <h1>linux</h1>
+        </div>
+    
+    
+    <div class="nexmoe-post-meta">
+    <div class="nexmoe-rainbow">
+        <a class="nexmoefont icon-calendar-fill">2023年02月20日</a>
+        
+        
+    </div>
+    
+    
+    
+    
+    
+</div>
+
+    <h2 id="rsync-远程同步工具"><a href="#rsync-远程同步工具" class="headerlink" title="##rsync 远程同步工具"></a>##rsync 远程同步工具</h2><p>rsync 是一个常用的 Linux 应用程序，用于文件同步，可通过LAN&#x2F;WAN快速同步多台主机间的文件。rsync使用所谓的“rsync算法”来使本地和远程两个主机之间的文件达到同步，这个算法只传送两个文件的不同部分，而不是每次都整份传送，因此速度相当快。 rsync是一个功能非常强大的工具，其命令也有很多功能特色选项。</p>
+<hr>
+<p><strong>使用语法</strong></p>
+<p>-r参数<br>本机使用 rsync 命令时，可以作为cp和mv命令的替代方法，将源目录拷贝到目标目录。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rsync -r <span class="built_in">source</span> destination </span><br></pre></td></tr></table></figure>
+
+<p>-a、–archive参数表示存档模式，保存所有的元数据，比如修改时间（modification time）、权限、所有者等，并且软链接也会同步过去。</p>
+<p>–append参数指定文件接着上次中断的地方，继续传输。</p>
+<p>–append-verify参数跟–append参数类似，但会对传输完成后的文件进行一次校验。如果校验失败，将重新发送整个文件。</p>
+<p>-b、–backup参数指定在删除或更新目标目录已经存在的文件时，将该文件更名后进行备份，默认行为是删除。更名规则是添加由–suffix参数指定的文件后缀名，默认是~。</p>
+<p>–backup-dir参数指定文件备份时存放的目录，比如–backup-dir&#x3D;&#x2F;path&#x2F;to&#x2F;backups。</p>
+<p>–bwlimit参数指定带宽限制，默认单位是 KB&#x2F;s，比如–bwlimit&#x3D;100。</p>
+<p>-c、–checksum参数改变rsync的校验方式。默认情况下，rsync 只检查文件的大小和最后修改日期是否发生变化，如果发生变化，就重新传输；使用这个参数以后，则通过判断文件内容的校验和，决定是否重新传输。</p>
+<p>–delete参数删除只存在于目标目录、不存在于源目标的文件，即保证目标目录是源目标的镜像。</p>
+<p>-e参数指定使用 SSH 协议传输数据。</p>
+<p>–exclude参数指定排除不进行同步的文件，比如–exclude&#x3D;”*.iso”。</p>
+<p>–exclude-from参数指定一个本地文件，里面是需要排除的文件模式，每个模式一行。</p>
+<p>–existing、–ignore-non-existing参数表示不同步目标目录中不存在的文件和目录。</p>
+<p>-h参数表示以人类可读的格式输出。</p>
+<p>-h、–help参数返回帮助信息。</p>
+<p>-i参数表示输出源目录与目标目录之间文件差异的详细情况。</p>
+<p>–ignore-existing参数表示只要该文件在目标目录中已经存在，就跳过去，不再同步这些文件。</p>
+<p>–include参数指定同步时要包括的文件，一般与–exclude结合使用。</p>
+<p>–link-dest参数指定增量备份的基准目录。</p>
+<p>-m参数指定不同步空目录。</p>
+<p>–max-size参数设置传输的最大文件的大小限制，比如不超过200KB（–max-size&#x3D;’200k’）。</p>
+<p>–min-size参数设置传输的最小文件的大小限制，比如不小于10KB（–min-size&#x3D;10k）。</p>
+<p>-n参数或–dry-run参数模拟将要执行的操作，而并不真的执行。配合-v参数使用，可以看到哪些内容会被同步过去。</p>
+<p>-P参数是–progress和–partial这两个参数的结合。</p>
+<p>–partial参数允许恢复中断的传输。不使用该参数时，rsync会删除传输到一半被打断的文件；使用该参数后，传输到一半的文件也会同步到目标目录，下次同步时再恢复中断的传输。一般需要与–append或–append-verify配合使用。</p>
+<p>–partial-dir参数指定将传输到一半的文件保存到一个临时目录，比如–partial-dir&#x3D;.rsync-partial。一般需要与–append或–append-verify配合使用。</p>
+<p>–progress参数表示显示进展。</p>
+<p>-r参数表示递归，即包含子目录。</p>
+<p>–remove-source-files参数表示传输成功后，删除发送方的文件。</p>
+<p>–size-only参数表示只同步大小有变化的文件，不考虑文件修改时间的差异。</p>
+<p>–suffix参数指定文件名备份时，对文件名添加的后缀，默认是~。</p>
+<p>-u、–update参数表示同步时跳过目标目录中修改时间更新的文件，即不同步这些有更新的时间戳的文件。</p>
+<p>-v参数表示输出细节。-vv表示输出更详细的信息，-vvv表示输出最详细的信息。</p>
+<p>–version参数返回 rsync 的版本。</p>
+<p>-z参数指定同步时压缩数据。</p>
+
+    <p><img data-fancybox="gallery" src=""  alt="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" data-caption="53a8c7cf3ad77a0f0a456ce2c6afe88a.png" loading="lazy"></p>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>John Doe<br>
+        <strong>Link：</strong><a href="http://example.com/2023/02/20/linux-rsync/" title="http:&#x2F;&#x2F;example.com&#x2F;2023&#x2F;02&#x2F;20&#x2F;linux-rsync&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2023&#x2F;02&#x2F;20&#x2F;linux-rsync&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+   
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          请在你的配置文件中设置评论框插槽
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#rsync-%E8%BF%9C%E7%A8%8B%E5%90%8C%E6%AD%A5%E5%B7%A5%E5%85%B7"><span class="toc-number">1.</span> <span class="toc-text">##rsync 远程同步工具</span></a></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="Back To Top" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-search-space">
+	<div class="search-container">
+		<div class="search-header">
+			<div class="search-input-container">
+				<input
+					class="search-input"
+					type="text"
+					placeholder="Search"
+					oninput="sinput();"
+				/>
+			</div>
+			<a class="search-close" onclick="sclose();">×</a>
+		</div>
+		<div class="search-body"></div>
+	</div>
+</div>
+
+    
+<script src="/lib/mdui_043tiny/mdui.js"></script>
+<script src="/lib/fancybox/fancybox.umd.js"></script>
+
+
+ 
+
+<script async src="/js/app.js?v=1677491419501"></script>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2058306854838448" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
